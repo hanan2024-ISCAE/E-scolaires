@@ -148,5 +148,5 @@ SIMPLE_JWT = {
     'BLACKLIST_AFTER_ROTATION': True,
 }
 
-AUTH_USER_MODEL = 'api_PEI.Utilisateur'
+AUTH_USER_MODEL = 'api.User'
 
