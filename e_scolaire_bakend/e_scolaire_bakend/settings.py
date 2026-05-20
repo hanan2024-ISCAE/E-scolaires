@@ -149,5 +149,10 @@ SIMPLE_JWT = {
     'BLACKLIST_AFTER_ROTATION': True,
 }
 
+<<<<<<< HEAD
 # AUTH_USER_MODEL = 'api_PEI.Utilisateur'
 AUTH_USER_MODEL = 'api.User'
+=======
+AUTH_USER_MODEL = 'api.User'
+
+>>>>>>> 8f2d0b15f82c2b98e6f603681f95808f4e636c56
