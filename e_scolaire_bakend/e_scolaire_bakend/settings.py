@@ -1,12 +1,11 @@
 from datetime import timedelta
 from pathlib import Path
+import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = "dev-only-change-in-production-e-scolaire-2025"
-
+SECRET_KEY = os.environ.get("SECRET_KEY", "dev-only-change-in-production-e-scolaire-2025")
 DEBUG = True
-
 ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 
 INSTALLED_APPS = [
@@ -35,7 +34,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "escolaire.urls"
+ROOT_URLCONF = "e_scolaire_bakend.urls"
 
 TEMPLATES = [
     {
@@ -52,14 +51,29 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "escolaire.wsgi.application"
+WSGI_APPLICATION = "e_scolaire_bakend.wsgi.application"
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+if os.environ.get("USE_MYSQL"):
+    import pymysql
+    pymysql.install_as_MySQLdb()
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": os.environ.get("DB_NAME", "api_e-scolaire_db"),
+            "USER": os.environ.get("DB_USER", "root"),
+            "PASSWORD": os.environ.get("DB_PASSWORD", ""),
+            "HOST": os.environ.get("DB_HOST", "localhost"),
+            "PORT": os.environ.get("DB_PORT", "3306"),
+            "OPTIONS": {"sql_mode": "STRICT_TRANS_TABLES"},
+        }
     }
-}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
 
 AUTH_USER_MODEL = "users.User"
 
