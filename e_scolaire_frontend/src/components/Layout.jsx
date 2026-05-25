@@ -9,9 +9,13 @@ export default function Layout({ admin }) {
 
   const adminLinks = [
     ['/admin/inscriptions', 'ti-user-check', 'Inscriptions'],
+    ['/admin/notes', 'ti-school', 'Notes'],
     ['/admin/reclamations', 'ti-messages', 'Réclamations'],
   ]
-  const studentLinks = [['/ressources', 'ti-folder-open', 'Ressources']]
+  const studentLinks = [
+    ['/notes', 'ti-school', 'Mes notes'],
+    ['/ressources', 'ti-folder-open', 'Ressources'],
+  ]
 
   return (
     <>

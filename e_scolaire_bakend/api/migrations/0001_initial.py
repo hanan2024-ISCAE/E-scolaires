@@ -54,7 +54,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('prenom', models.CharField(max_length=100)),
                 ('nom', models.CharField(max_length=100)),
-                ('email', models.EmailField(max_length=254, unique=True)),
+                ('email', models.EmailField(max_length=191, unique=True)),
                 ('password', models.CharField(max_length=128)),
                 ('matricule', models.CharField(max_length=20, unique=True)),
                 ('filiere', models.CharField(max_length=100)),

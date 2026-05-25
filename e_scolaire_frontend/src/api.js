@@ -22,4 +22,8 @@ export const refuserReclamation = (id, body = {}) => api.post(`/reclamations/${i
 export const getRessources = (params) => api.get('/ressources/', { params })
 export const downloadRessource = (id) => api.get(`/ressources/${id}/telecharger/`, { responseType: 'blob' })
 
+export const getNotes = () => api.get('/notes/')
+export const publierNote = (body) => api.post('/notes/publier/', body)
+export const getMesNotes = () => api.get('/notes/mes/')
+
 export default api

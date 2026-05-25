@@ -14,7 +14,7 @@ export default function Login() {
     e.preventDefault()
     try {
       const u = await login(username, password)
-      nav(u.role === 'admin' ? '/admin/inscriptions' : '/ressources')
+      nav(u.role === 'admin' ? '/admin/notes' : '/notes')
     } catch {
       setToast('Identifiants incorrects')
     }
