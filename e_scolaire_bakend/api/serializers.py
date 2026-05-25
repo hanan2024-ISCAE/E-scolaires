@@ -4,6 +4,7 @@ from .models import User, Etudiant
 
 
 class RegisterEtudiantSerializer(serializers.ModelSerializer):
+
     matricule = serializers.CharField()
     filiere = serializers.CharField()
     niveau = serializers.CharField()
@@ -21,7 +22,15 @@ class RegisterEtudiantSerializer(serializers.ModelSerializer):
             'photo'
         ]
 
+    def validate_email(self, value):
+
+        if User.objects.filter(email=value).exists():
+            raise serializers.ValidationError("Email déjà utilisé")
+
+        return value
+
     def create(self, validated_data):
+
         matricule = validated_data.pop('matricule')
         filiere = validated_data.pop('filiere')
         niveau = validated_data.pop('niveau')
