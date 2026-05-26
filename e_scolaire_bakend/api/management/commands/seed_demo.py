@@ -5,10 +5,7 @@ from django.contrib.auth.hashers import make_password
 from django.core.files.base import ContentFile
 from django.core.management.base import BaseCommand
 
-from notes.models import Note
-from reclamations.models import Reclamation
-from ressources.models import RessourcePedagogique
-from users.models import DemandeInscription
+from api.models import DemandeInscription, Note, Reclamation, RessourcePedagogique
 
 User = get_user_model()
 
