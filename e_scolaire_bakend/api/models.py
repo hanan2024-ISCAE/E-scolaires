@@ -108,4 +108,29 @@ class Ressource(models.Model):
     admin = models.ForeignKey(Admin, on_delete=models.SET_NULL, null=True, related_name='ressources_publiees')
     module = models.ForeignKey(Module, on_delete=models.CASCADE, related_name='ressources_possedees')
 
-    
+
+
+class Attestation(models.Model):
+
+    TYPE_CHOICES = [
+        ('inscription', 'Attestation inscription'),
+    ]
+
+    etudiant = models.ForeignKey(
+        Etudiant,
+        on_delete=models.CASCADE,
+        related_name='attestations'
+    )
+
+    type_attestation = models.CharField(
+        max_length=50,
+        choices=TYPE_CHOICES
+    )
+
+    fichier = models.FileField(
+        upload_to='attestations/'
+    )
+
+    date_creation = models.DateTimeField(
+        auto_now_add=True
+    )
