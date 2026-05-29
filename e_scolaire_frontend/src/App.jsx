@@ -9,7 +9,9 @@ import MesNotes from './pages/MesNotes'
 import Ressources from './pages/Ressources'
 
 function Guard({ admin, children }) {
-  const { user, loading } = useAuth()
+  const auth = useAuth()
+  const user = auth?.user
+  const loading = auth?.loading
   if (loading) return null
   if (!user) return <Navigate to="/login" replace />
   if (admin && user.role !== 'admin') return <Navigate to="/notes" replace />
@@ -18,7 +20,8 @@ function Guard({ admin, children }) {
 }
 
 export default function App() {
-  const { user } = useAuth()
+  const auth = useAuth()
+  const user = auth?.user
   const defaultPath = user?.role === 'admin' ? '/admin/notes' : '/notes'
 
   return (

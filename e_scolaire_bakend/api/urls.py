@@ -1,32 +1,23 @@
-from django.urls import include, path
-from rest_framework.routers import DefaultRouter
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-
+from django.urls import path
 from .views import (
-    DemandeInscriptionViewSet,
-    MeView,
+    NotesListView,
+    PublierNoteView,
+    ModulesListView,
     MesNotesListView,
-    ReclamationViewSet,
-    RessourceViewSet,
-    register_etudiant,
+    DropdownOptionsView
 )
 
-inscriptions_router = DefaultRouter()
-inscriptions_router.register("demandes", DemandeInscriptionViewSet, basename="demande-inscription")
-
-reclamations_router = DefaultRouter()
-reclamations_router.register("", ReclamationViewSet, basename="reclamation")
-
-ressources_router = DefaultRouter()
-ressources_router.register("", RessourceViewSet, basename="ressource")
+app_name = 'api'
 
 urlpatterns = [
-    path("register/", register_etudiant, name="register"),
-    path("auth/login/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
-    path("auth/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
-    path("auth/me/", MeView.as_view(), name="me"),
-    path("inscriptions/", include(inscriptions_router.urls)),
-    path("notes/mes/", MesNotesListView.as_view()),
-    path("reclamations/", include(reclamations_router.urls)),
-    path("ressources/", include(ressources_router.urls)),
+    # Admin endpoints
+    path('notes/', NotesListView.as_view(), name='notes-list'),
+    path('notes/publier/', PublierNoteView.as_view(), name='publier-note'),
+    path('modules/', ModulesListView.as_view(), name='modules-list'),
+    
+    # Get dropdown options
+    path('notes/dropdown-options/', DropdownOptionsView.as_view(), name='dropdown-options'),
+    
+    # Student endpoints
+    path('mes-notes/', MesNotesListView.as_view(), name='mes-notes'),
 ]

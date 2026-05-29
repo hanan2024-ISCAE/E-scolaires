@@ -4,9 +4,16 @@ import { getMesNotes } from '../api'
 export default function MesNotes() {
   const [rows, setRows] = useState([])
 
-  const load = useCallback(() => getMesNotes().then((r) => setRows(r.data)), [])
+  const load = useCallback(() => getMesNotes().then((r) => setRows(r.data.data || [])), [])
 
-  useEffect(() => { load() }, [load])
+  useEffect(() => { 
+    load()
+    // Poll for new notes every 5 seconds
+    const interval = setInterval(() => {
+      getMesNotes().then((r) => setRows(r.data.data || []))
+    }, 5000)
+    return () => clearInterval(interval)
+  }, [load])
 
   const moyenne = rows.length
     ? rows.reduce((sum, n) => sum + Number(n.valeur) * Number(n.coefficient), 0) / rows.reduce((sum, n) => sum + Number(n.coefficient), 0)
@@ -39,7 +46,7 @@ export default function MesNotes() {
           <tbody>
             {rows.map((n) => (
               <tr key={n.id}>
-                <td>{n.module}</td>
+                <td>{n.module?.intitule || n.module}</td>
                 <td><span className="badge b-blue">{n.type_note}</span></td>
                 <td style={{ fontWeight: 700, color: Number(n.valeur) >= 10 ? 'var(--green)' : 'var(--rose)' }}>{n.valeur}/20</td>
                 <td>{n.coefficient}</td>

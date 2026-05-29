@@ -1,3 +1,4 @@
+from django.db import connection
 from rest_framework import serializers
 
 from users.models import User
@@ -33,11 +34,12 @@ class NoteSerializer(serializers.ModelSerializer):
 
 class PublierNoteSerializer(serializers.ModelSerializer):
     etudiant = serializers.CharField(write_only=True)
+    module_id = serializers.IntegerField(write_only=True)
 
     class Meta:
         model = Note
-        fields = ["id", "etudiant", "module", "type_note", "valeur", "coefficient", "date_publication"]
-        read_only_fields = ["id", "date_publication"]
+        fields = ["id", "etudiant", "module_id", "module", "type_note", "valeur", "coefficient", "date_publication"]
+        read_only_fields = ["id", "module", "coefficient", "date_publication"]
 
     def validate_etudiant(self, value):
         try:
@@ -53,6 +55,17 @@ class PublierNoteSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("La note doit etre entre 0 et 20.")
         return value
 
+    def validate_module_id(self, value):
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT intitule, coefficient FROM api_module WHERE id = %s", [value])
+            row = cursor.fetchone()
+        if not row:
+            raise serializers.ValidationError("Module introuvable.")
+        return {"intitule": row[0], "coefficient": int(row[1])}
+
     def create(self, validated_data):
+        module = validated_data.pop("module_id")
+        validated_data["module"] = module["intitule"]
+        validated_data["coefficient"] = module["coefficient"]
         validated_data["publie_par"] = self.context["request"].user
         return super().create(validated_data)

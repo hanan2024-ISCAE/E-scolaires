@@ -10,6 +10,7 @@ api.interceptors.request.use((cfg) => {
 
 export const login = (username, password) => api.post('/auth/login/', { username, password })
 export const me = () => api.get('/auth/me/')
+export const getStudents = () => api.get('/auth/students/')
 
 export const getDemandes = (statut) => api.get('/inscriptions/demandes/', { params: statut ? { statut } : {} })
 export const validerDemande = (id) => api.post(`/inscriptions/demandes/${id}/valider/`)
@@ -23,7 +24,8 @@ export const getRessources = (params) => api.get('/ressources/', { params })
 export const downloadRessource = (id) => api.get(`/ressources/${id}/telecharger/`, { responseType: 'blob' })
 
 export const getNotes = () => api.get('/notes/')
+export const getModules = () => api.get('/notes/modules/')
 export const publierNote = (body) => api.post('/notes/publier/', body)
-export const getMesNotes = () => api.get('/notes/mes/')
+export const getMesNotes = () => api.get('/notes/mes-notes/')
 
 export default api

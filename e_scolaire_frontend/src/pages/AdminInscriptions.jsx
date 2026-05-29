@@ -10,7 +10,14 @@ export default function AdminInscriptions() {
   const [toast, setToast] = useState('')
   const load = useCallback(() => getDemandes().then((r) => setRows(r.data)), [])
 
-  useEffect(() => { load() }, [load])
+  useEffect(() => { 
+    load()
+    // Poll for new inscriptions every 5 seconds
+    const interval = setInterval(() => {
+      getDemandes().then((r) => setRows(r.data))
+    }, 5000)
+    return () => clearInterval(interval)
+  }, [load])
 
   const act = async (fn, id, ok) => {
     try {
