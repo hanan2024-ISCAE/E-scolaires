@@ -1,0 +1,10 @@
+# Si vous utilisez Python / Django
+__pycache__/
+*.pyc
+db.sqlite3
+.env
+
+
+# Fichiers système ou liés à VS Code
+.vscode/
+.DS_Store
